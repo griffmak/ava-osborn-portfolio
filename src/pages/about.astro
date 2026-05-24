@@ -1,18 +1,171 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import headshot from '../assets/headshot.jpg';
 ---
 
 <Base
   title="About"
-  description="About Ava Osborn — Social Marketing and Content Strategist at Ralph Lauren."
+  description="Ava Osborn — Social Marketing and Content Strategist at Ralph Lauren. Bio, experience, skills, and resume."
 >
-  <section class="mx-auto max-w-6xl px-6 py-24">
-    <p class="mb-4 text-sm font-medium uppercase tracking-widest text-muted">
-      Coming soon
-    </p>
-    <h1 class="text-5xl font-semibold tracking-tight text-ink md:text-7xl">
-      About
-    </h1>
-    <p class="mt-6 text-base text-muted">About page — Session 3</p>
+  <!-- Section 1: Headshot + Bio -->
+  <section class="px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <div class="grid grid-cols-1 gap-12 md:grid-cols-5">
+        <!-- Headshot col (~40%) -->
+        <div class="md:col-span-2">
+          {/* PLACEHOLDER: Ava to replace with professional headshot */}
+          <Image
+            src={headshot}
+            alt="Ava Osborn — Social Marketing and Content Strategist"
+            class="w-full object-cover"
+            widths={[400, 800]}
+            sizes="(max-width: 768px) 100vw, 40vw"
+          />
+        </div>
+
+        <!-- Bio col (~60%) -->
+        <div class="md:col-span-3">
+          <h1 class="mb-8 text-5xl font-semibold tracking-tight text-ink md:text-6xl">
+            About Me
+          </h1>
+
+          {/* PLACEHOLDER: Ava to review/approve bio paragraphs */}
+          <p class="mb-6 text-base leading-relaxed text-muted">
+            I'm a social marketing and content strategist based in New York City. My work sits at
+            the intersection of brand strategy, cultural intelligence, and data-driven execution.
+          </p>
+          <p class="mb-6 text-base leading-relaxed text-muted">
+            At Ralph Lauren, I lead social for marquee moments — Paris Fashion Week, the Australian
+            Open, the Ryder Cup — architecting strategies that span multiple platforms, audiences,
+            and content formats. I also built and deployed the team's AI automation infrastructure,
+            reducing manual reporting by 3+ hours weekly, and now serve as the team's appointed AI
+            lead.
+          </p>
+          <p class="mb-10 text-base leading-relaxed text-muted">
+            Before Ralph Lauren, I built B2B content strategy at Azul Systems and conducted retail
+            buying analysis at Bloomingdale's. I studied Economics at the University of Michigan's
+            Ross School of Business, graduating with a 3.93 GPA and distinction.
+          </p>
+
+          <a
+            href="/resume.pdf"
+            download
+            class="inline-block w-full bg-ink px-8 py-3 text-center text-sm font-medium text-surface transition-opacity hover:opacity-90 md:w-auto"
+          >
+            Download Resume (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="border-t border-border"></div>
+
+  <!-- Section 2: Experience -->
+  <section class="px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <p class="mb-8 text-sm font-medium uppercase tracking-widest text-muted">Experience</p>
+      <h2 class="mb-12 text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+        Where I've Worked
+      </h2>
+      <ul class="space-y-10">
+        <li class="grid grid-cols-1 gap-2 border-t border-border pt-8 md:grid-cols-4">
+          <div class="md:col-span-1">
+            <p class="text-sm font-medium text-muted">Aug 2024–Present</p>
+            <p class="text-sm text-muted">New York, NY</p>
+          </div>
+          <div class="md:col-span-3">
+            <p class="text-base font-medium text-ink">Ralph Lauren</p>
+            <p class="text-base text-muted">Social Marketing and Content Strategy Assistant</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-1 gap-2 border-t border-border pt-8 md:grid-cols-4">
+          <div class="md:col-span-1">
+            <p class="text-sm font-medium text-muted">Jan 2023–Apr 2024</p>
+            <p class="text-sm text-muted">Sunnyvale, CA</p>
+          </div>
+          <div class="md:col-span-3">
+            <p class="text-base font-medium text-ink">Azul Systems</p>
+            <p class="text-base text-muted">Marketing Intern</p>
+          </div>
+        </li>
+        <li class="grid grid-cols-1 gap-2 border-t border-border pt-8 md:grid-cols-4">
+          <div class="md:col-span-1">
+            <p class="text-sm font-medium text-muted">Jun–Jul 2023</p>
+            <p class="text-sm text-muted">New York, NY</p>
+          </div>
+          <div class="md:col-span-3">
+            <p class="text-base font-medium text-ink">Bloomingdale's</p>
+            <p class="text-base text-muted">Buying Intern</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="border-t border-border"></div>
+
+  <!-- Section 3: Skills & Tools -->
+  <section class="px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <p class="mb-8 text-sm font-medium uppercase tracking-widest text-muted">Capabilities</p>
+      <h2 class="mb-12 text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+        Skills &amp; Tools
+      </h2>
+      <dl class="grid grid-cols-1 gap-10 md:grid-cols-2">
+        <div>
+          <dt class="mb-3 text-sm font-medium uppercase tracking-widest text-muted">Platforms</dt>
+          <dd class="text-base leading-relaxed text-ink">
+            Instagram, TikTok, YouTube, LinkedIn, Twitter/X
+          </dd>
+        </div>
+        <div>
+          <dt class="mb-3 text-sm font-medium uppercase tracking-widest text-muted">Strategy</dt>
+          <dd class="text-base leading-relaxed text-ink">
+            Campaign Architecture, Content Strategy, Paid + Earned Media Integration,
+            Cross-Platform Execution, Real-Time Social Monitoring
+          </dd>
+        </div>
+        <div>
+          <dt class="mb-3 text-sm font-medium uppercase tracking-widest text-muted">Analytics</dt>
+          <dd class="text-base leading-relaxed text-ink">
+            KPI Reporting, Social Analytics Dashboard Design, A/B Testing, Competitive Analysis,
+            Performance Reporting
+          </dd>
+        </div>
+        <div>
+          <dt class="mb-3 text-sm font-medium uppercase tracking-widest text-muted">Tools</dt>
+          <dd class="text-base leading-relaxed text-ink">
+            Generative AI (Claude, ChatGPT, Gemini), Microsoft Excel, PowerPoint
+          </dd>
+        </div>
+        <div class="md:col-span-2">
+          <dt class="mb-3 text-sm font-medium uppercase tracking-widest text-muted">Education</dt>
+          <dd class="text-base leading-relaxed text-ink">
+            University of Michigan – Ann Arbor, Ross School of Business &nbsp;·&nbsp; BA Economics,
+            Business Admin Minor &nbsp;·&nbsp; GPA 3.93, With Distinction
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="border-t border-border"></div>
+
+  <!-- Awards -->
+  <section class="px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <p class="mb-8 text-sm font-medium uppercase tracking-widest text-muted">Recognition</p>
+      <h2 class="mb-12 text-3xl font-semibold tracking-tight text-ink md:text-4xl">Awards</h2>
+      <p class="max-w-2xl text-base leading-relaxed text-muted">
+        1st place (out of 8+ teams) in a competitive advertising pitch judged by Kellogg's
+        executives — developed a full integrated campaign for Pop-Tarts including digital ads,
+        video assets, and niche positioning strategy (2022).
+      </p>
+    </div>
   </section>
 </Base>
