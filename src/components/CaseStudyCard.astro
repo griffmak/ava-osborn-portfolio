@@ -14,25 +14,27 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/case-studies/*.{jpg,jpeg,png,webp}',
   { eager: true },
 );
-const filename = caseStudy.thumbnail.split('/').pop()!;
+const filename = caseStudy.thumbnail.split('/').pop();
+if (!filename) throw new Error(`CaseStudyCard: invalid thumbnail path "${caseStudy.thumbnail}"`);
 const thumbnailSrc = images[`../assets/case-studies/${filename}`]?.default;
+if (!thumbnailSrc) {
+  throw new Error(
+    `CaseStudyCard: no image found for "${caseStudy.thumbnail}". Expected file at src/assets/case-studies/${filename}`,
+  );
+}
 ---
 
 <a
   href={`/work/${caseStudy.slug}`}
   class="block overflow-hidden border border-border bg-surface hover:shadow-md transition-shadow duration-200"
 >
-  {
-    thumbnailSrc && (
-      <Image
-        src={thumbnailSrc}
-        alt={`${caseStudy.title} campaign thumbnail`}
-        width={640}
-        height={360}
-        class="w-full aspect-video object-cover"
-      />
-    )
-  }
+  <Image
+    src={thumbnailSrc}
+    alt={`${caseStudy.title} campaign thumbnail`}
+    width={640}
+    height={360}
+    class="w-full aspect-video object-cover"
+  />
   <div class="p-6">
     <p class="mb-2 text-sm font-medium uppercase tracking-widest text-muted">
       {caseStudy.brand} · {caseStudy.year}
@@ -49,6 +51,6 @@ const thumbnailSrc = images[`../assets/case-studies/${filename}`]?.default;
     <p class="mb-4 line-clamp-2 text-base text-muted">
       {caseStudy.summary}
     </p>
-    <p class="text-right text-sm text-muted">View →</p>
+    <p class="text-right text-sm text-muted" aria-hidden="true">View →</p>
   </div>
 </a>
