@@ -1,4 +1,6 @@
 ---
+import { caseStudies } from '../../data/work';
+import CaseStudyCard from '../../components/CaseStudyCard.astro';
 import Base from '../../layouts/Base.astro';
 ---
 
@@ -6,13 +8,17 @@ import Base from '../../layouts/Base.astro';
   title="Work"
   description="Campaign strategy and social execution at Ralph Lauren — and beyond."
 >
-  <section class="mx-auto max-w-6xl px-6 py-24">
-    <p class="mb-4 text-sm font-medium uppercase tracking-widest text-muted">
-      Coming soon
+  <section class="mx-auto max-w-5xl px-6 py-24 md:py-32">
+    <h1 class="mb-4 text-5xl font-semibold tracking-tight text-ink md:text-7xl">Work</h1>
+    <p class="mb-16 text-lg text-muted">
+      Campaign strategy and social execution at Ralph Lauren — and beyond.
     </p>
-    <h1 class="text-5xl font-semibold tracking-tight text-ink md:text-7xl">
-      Work
-    </h1>
-    <p class="mt-6 text-base text-muted">Work grid — Session 4</p>
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+      {caseStudies.map((cs) => <CaseStudyCard caseStudy={cs} />)}
+    </div>
+    <p class="mt-12 text-sm italic text-muted">
+      Detailed case study copy is being finalized. Metrics shown are accurate. Full details
+      available on request.
+    </p>
   </section>
 </Base>

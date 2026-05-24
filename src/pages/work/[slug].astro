@@ -1,0 +1,150 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import type { CaseStudy } from '../../data/work';
+import { caseStudies } from '../../data/work';
+import MetricPill from '../../components/MetricPill.astro';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  return caseStudies.map((cs) => ({
+    params: { slug: cs.slug },
+    props: { caseStudy: cs },
+  }));
+}
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+
+const { caseStudy } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '../../assets/case-studies/*.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const filename = caseStudy.thumbnail.split('/').pop();
+if (!filename) throw new Error(`[slug].astro: invalid thumbnail path "${caseStudy.thumbnail}"`);
+const heroSrc = images[`../../assets/case-studies/${filename}`]?.default;
+if (!heroSrc) {
+  throw new Error(
+    `[slug].astro: no image found for "${caseStudy.thumbnail}". Expected file at src/assets/case-studies/${filename}`,
+  );
+}
+
+const index = caseStudies.findIndex((cs) => cs.slug === caseStudy.slug);
+const nextStudy = caseStudies[(index + 1) % caseStudies.length];
+---
+
+<Base title={caseStudy.title} description={caseStudy.summary}>
+  <article class="mx-auto max-w-4xl px-6 py-24 md:py-32">
+    <!-- Back link -->
+    <a
+      href="/work"
+      class="mb-12 inline-block text-sm text-muted transition-colors duration-200 hover:text-ink"
+    >
+      ← All Work
+    </a>
+
+    <!-- Header block -->
+    <header class="mb-12">
+      <p class="mb-3 text-sm font-medium uppercase tracking-widest text-muted">
+        {caseStudy.brand} · {caseStudy.year}
+      </p>
+      <h1 class="mb-4 text-5xl font-semibold tracking-tight text-ink md:text-7xl">
+        {caseStudy.title}
+      </h1>
+      <p class="mb-6 text-lg text-muted">{caseStudy.role}</p>
+      <p class="text-sm text-muted">{caseStudy.platforms.join(' · ')}</p>
+    </header>
+
+    <!-- Metrics row: 3-col grid, large MetricPill, center-aligned -->
+    <div class="mb-12 grid grid-cols-3 gap-8 border-y border-border py-10">
+      {
+        caseStudy.metrics.map((metric) => (
+          <div class="flex justify-center">
+            <MetricPill value={metric.value} unit={metric.unit} large={true} />
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Hero image -->
+    <div class="mb-16 overflow-hidden">
+      <Image
+        src={heroSrc}
+        alt={`${caseStudy.title} campaign`}
+        width={1200}
+        height={675}
+        class="w-full aspect-video object-cover"
+      />
+    </div>
+
+    <!-- Content sections: label left, text right. Null-check on all three fields. -->
+    <div class="space-y-16">
+      <!-- Challenge -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-[180px_1fr]">
+        <h2 class="pt-1 text-sm font-medium uppercase tracking-widest text-muted">
+          The Challenge
+        </h2>
+        {
+          caseStudy.challenge !== null ? (
+            <p class="text-base leading-relaxed text-ink">{caseStudy.challenge}</p>
+          ) : (
+            <p class="text-base italic leading-relaxed text-muted">
+              Case study details coming soon.
+            </p>
+          )
+        }
+      </div>
+
+      <!-- Strategy -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-[180px_1fr]">
+        <h2 class="pt-1 text-sm font-medium uppercase tracking-widest text-muted">
+          The Strategy
+        </h2>
+        {
+          caseStudy.strategy !== null ? (
+            <p class="text-base leading-relaxed text-ink">{caseStudy.strategy}</p>
+          ) : (
+            <p class="text-base italic leading-relaxed text-muted">
+              Case study details coming soon.
+            </p>
+          )
+        }
+      </div>
+
+      <!-- Results: always show metrics pills, show text or placeholder -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-[180px_1fr]">
+        <h2 class="pt-1 text-sm font-medium uppercase tracking-widest text-muted">
+          The Results
+        </h2>
+        <div>
+          {
+            caseStudy.results !== null ? (
+              <p class="mb-6 text-base leading-relaxed text-ink">{caseStudy.results}</p>
+            ) : (
+              <p class="mb-6 text-base italic leading-relaxed text-muted">
+                Case study details coming soon.
+              </p>
+            )
+          }
+          <div class="flex flex-wrap gap-8">
+            {caseStudy.metrics.map((metric) => <MetricPill value={metric.value} unit={metric.unit} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next case study nav -->
+    <div class="mt-24 border-t border-border pt-12">
+      <p class="mb-2 text-sm font-medium uppercase tracking-widest text-muted">Next</p>
+      <a
+        href={`/work/${nextStudy.slug}`}
+        class="text-xl font-semibold text-ink transition-colors duration-200 hover:text-muted"
+      >
+        {nextStudy.title} →
+      </a>
+    </div>
+  </article>
+</Base>
