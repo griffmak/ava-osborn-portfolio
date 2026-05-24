@@ -93,24 +93,26 @@ const currentPath = Astro.url.pathname;
     id="mobile-menu"
     class="hidden md:hidden border-t border-border"
   >
-    <div class="mx-auto max-w-6xl px-6 py-4 flex flex-col gap-4">
+    <ul class="mx-auto max-w-6xl px-6 py-4 flex flex-col gap-4 list-none m-0 p-0">
       {
         navLinks.map(({ href, label }) => (
-          <a
-            href={href}
-            aria-current={currentPath === href ? 'page' : undefined}
-            class:list={[
-              'text-base font-medium transition-colors duration-200',
-              currentPath === href
-                ? 'text-ink font-semibold'
-                : 'text-muted hover:text-ink',
-            ]}
-          >
-            {label}
-          </a>
+          <li>
+            <a
+              href={href}
+              aria-current={currentPath === href ? 'page' : undefined}
+              class:list={[
+                'text-base font-medium transition-colors duration-200',
+                currentPath === href
+                  ? 'text-ink font-semibold'
+                  : 'text-muted hover:text-ink',
+              ]}
+            >
+              {label}
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </div>
 </nav>
 
