@@ -26,7 +26,7 @@ export const caseStudies: CaseStudy[] = [
     brand: 'Ralph Lauren',
     role: 'Social Strategy Lead',
     platforms: ['Instagram', 'TikTok', 'YouTube', '+5 platforms'],
-    thumbnail: '/src/assets/case-studies/paris-fw.jpg',
+    thumbnail: 'paris-fw.jpg',
     year: 2025,
     summary:
       "Architected real-time social execution across 8 platforms for the season's biggest cultural moment.",
@@ -46,7 +46,7 @@ export const caseStudies: CaseStudy[] = [
     brand: 'Ralph Lauren',
     role: 'Campaign Strategist',
     platforms: ['Instagram', 'TikTok'],
-    thumbnail: '/src/assets/case-studies/oak-bluffs.jpg',
+    thumbnail: 'oak-bluffs.jpg',
     year: 2025,
     summary:
       'Led end-to-end social strategy for a phased brand campaign designed to drive cultural conversation and community growth.',
@@ -66,7 +66,7 @@ export const caseStudies: CaseStudy[] = [
     brand: 'Ralph Lauren',
     role: 'Social Strategy & Content',
     platforms: ['Instagram', 'TikTok', 'YouTube'],
-    thumbnail: '/src/assets/case-studies/ryder-cup.jpg',
+    thumbnail: 'ryder-cup.jpg',
     year: 2024,
     summary:
       'Built a platform-tailored strategy to capture golf audiences, earning #1 social SOV among all competing brand sponsors.',
@@ -86,7 +86,7 @@ export const caseStudies: CaseStudy[] = [
     brand: 'Ralph Lauren',
     role: 'Real-Time Content Strategy',
     platforms: ['TikTok', 'Instagram'],
-    thumbnail: '/src/assets/case-studies/australian-open.jpg',
+    thumbnail: 'australian-open.jpg',
     year: 2025,
     summary:
       "Identified a live cultural moment and executed the brand's highest-ever performing post.",

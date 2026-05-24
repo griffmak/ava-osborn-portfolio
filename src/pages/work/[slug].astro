@@ -23,12 +23,10 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   '../../assets/case-studies/*.{jpg,jpeg,png,webp}',
   { eager: true },
 );
-const filename = caseStudy.thumbnail.split('/').pop();
-if (!filename) throw new Error(`[slug].astro: invalid thumbnail path "${caseStudy.thumbnail}"`);
-const heroSrc = images[`../../assets/case-studies/${filename}`]?.default;
+const heroSrc = images[`../../assets/case-studies/${caseStudy.thumbnail}`]?.default;
 if (!heroSrc) {
   throw new Error(
-    `[slug].astro: no image found for "${caseStudy.thumbnail}". Expected file at src/assets/case-studies/${filename}`,
+    `[slug].astro: no image found for "${caseStudy.thumbnail}". Expected file at src/assets/case-studies/${caseStudy.thumbnail}`,
   );
 }
 
