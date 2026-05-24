@@ -4,6 +4,8 @@ const navLinks = [
   { href: '/work', label: 'Work' },
   { href: '/contact', label: 'Contact' },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
 <nav
@@ -19,19 +21,26 @@ const navLinks = [
     </a>
 
     <!-- Desktop links -->
-    <div class="hidden md:flex items-center gap-8" role="list">
+    <ul class="hidden md:flex items-center gap-8 list-none m-0 p-0">
       {
         navLinks.map(({ href, label }) => (
-          <a
-            href={href}
-            role="listitem"
-            class="text-sm font-medium text-ink hover:text-muted transition-colors duration-200"
-          >
-            {label}
-          </a>
+          <li>
+            <a
+              href={href}
+              aria-current={currentPath === href ? 'page' : undefined}
+              class:list={[
+                'text-sm font-medium transition-colors duration-200',
+                currentPath === href
+                  ? 'text-ink font-semibold underline underline-offset-4'
+                  : 'text-muted hover:text-ink',
+              ]}
+            >
+              {label}
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
 
     <!-- Mobile hamburger button -->
     <button
@@ -83,16 +92,19 @@ const navLinks = [
   <div
     id="mobile-menu"
     class="hidden md:hidden border-t border-border"
-    role="menu"
-    aria-label="Mobile navigation"
   >
     <div class="mx-auto max-w-6xl px-6 py-4 flex flex-col gap-4">
       {
         navLinks.map(({ href, label }) => (
           <a
             href={href}
-            role="menuitem"
-            class="text-base font-medium text-ink hover:text-muted transition-colors duration-200"
+            aria-current={currentPath === href ? 'page' : undefined}
+            class:list={[
+              'text-base font-medium transition-colors duration-200',
+              currentPath === href
+                ? 'text-ink font-semibold'
+                : 'text-muted hover:text-ink',
+            ]}
           >
             {label}
           </a>
