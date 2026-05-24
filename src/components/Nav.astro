@@ -103,7 +103,7 @@ const currentPath = Astro.url.pathname;
               class:list={[
                 'text-base font-medium transition-colors duration-200',
                 currentPath === href
-                  ? 'text-ink font-semibold'
+                  ? 'text-ink font-semibold underline underline-offset-4'
                   : 'text-muted hover:text-ink',
               ]}
             >
