@@ -1,0 +1,122 @@
+---
+const navLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/work', label: 'Work' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+
+<nav
+  class="sticky top-0 z-50 bg-surface border-b border-border"
+  aria-label="Main navigation"
+>
+  <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+    <a
+      href="/"
+      class="text-xl font-semibold text-ink tracking-tight hover:opacity-80 transition-opacity"
+    >
+      Ava Osborn
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden md:flex items-center gap-8" role="list">
+      {
+        navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            role="listitem"
+            class="text-sm font-medium text-ink hover:text-muted transition-colors duration-200"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Mobile hamburger button -->
+    <button
+      id="nav-toggle"
+      type="button"
+      class="md:hidden p-2 text-ink rounded focus:outline-none focus:ring-2 focus:ring-ink"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg
+        id="icon-open"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+      <svg
+        id="icon-close"
+        class="hidden"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-border"
+    role="menu"
+    aria-label="Mobile navigation"
+  >
+    <div class="mx-auto max-w-6xl px-6 py-4 flex flex-col gap-4">
+      {
+        navLinks.map(({ href, label }) => (
+          <a
+            href={href}
+            role="menuitem"
+            class="text-base font-medium text-ink hover:text-muted transition-colors duration-200"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden');
+    iconOpen?.classList.toggle('hidden');
+    iconClose?.classList.toggle('hidden');
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    toggle.setAttribute(
+      'aria-label',
+      isOpen ? 'Open navigation menu' : 'Close navigation menu',
+    );
+  });
+</script>

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #F5F0EB;
+  --color-surface: #FFFFFF;
+  --color-ink: #0A0A0A;
+  --color-muted: #5C5C5C;
+  --color-border: #E0D8CE;
+  --font-sans: 'Inter', sans-serif;
+}
+
+html,
+body {
+  @apply bg-bg font-sans;
+}
