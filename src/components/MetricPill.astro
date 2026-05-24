@@ -1,0 +1,18 @@
+---
+interface Props {
+  value: string;
+  unit: string;
+  large?: boolean;
+}
+
+const { value, unit, large = false } = Astro.props;
+---
+
+<div class="flex flex-col">
+  <span class={large ? 'text-5xl md:text-7xl font-bold text-ink' : 'text-2xl font-bold text-ink'}>
+    {value}
+  </span>
+  <span class={large ? 'mt-2 text-base text-muted' : 'mt-1 text-sm text-muted'}>
+    {unit}
+  </span>
+</div>

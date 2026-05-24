@@ -1,20 +1,76 @@
 ---
 import Base from '../layouts/Base.astro';
+import CaseStudyCard from '../components/CaseStudyCard.astro';
+import { caseStudies } from '../data/work';
+
+const featuredStudies = caseStudies.filter((cs) => cs.featured);
 ---
 
 <Base
   title="Home"
   description="Ava Osborn — Social Marketing and Content Strategist. Building social strategies that drive cultural moments at scale."
 >
+  <!-- Section 1: Hero -->
   <section class="flex min-h-screen items-center justify-center px-6 py-24">
-    <div class="text-center">
-      <p class="mb-4 text-sm font-medium uppercase tracking-widest text-muted">
-        Coming soon
+    <div class="mx-auto max-w-3xl text-center">
+      <p class="mb-6 text-sm font-medium uppercase tracking-widest text-muted">
+        Social Marketing and Content Strategist
       </p>
-      <h1 class="text-5xl font-semibold tracking-tight text-ink md:text-7xl">
+      <h1 class="mb-8 text-5xl font-semibold tracking-tight text-ink md:text-7xl">
         Ava Osborn
       </h1>
-      <p class="mt-6 text-base text-muted">Home page — Session 2</p>
+      <p class="mx-auto mb-12 max-w-xl text-base leading-relaxed text-muted">
+        I build social strategies that drive cultural moments at scale. Currently at Ralph Lauren,
+        leading campaigns across Paris Fashion Week, the Australian Open, and the Ryder Cup.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a
+          href="/work"
+          class="bg-ink px-8 py-3 text-sm font-medium text-surface transition-opacity hover:opacity-90"
+        >
+          See My Work
+        </a>
+        <a
+          href="/contact"
+          class="border border-ink px-8 py-3 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-surface"
+        >
+          Get In Touch
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Featured Work -->
+  <section class="px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-6xl">
+      <h2 class="mb-12 text-3xl font-semibold tracking-tight text-ink md:text-4xl">
+        Featured Work
+      </h2>
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        {featuredStudies.map((cs) => <CaseStudyCard caseStudy={cs} />)}
+      </div>
+      <div class="mt-12">
+        <a href="/work" class="text-sm font-medium text-ink transition-opacity hover:opacity-70">
+          View All Work →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: About Teaser -->
+  <section class="border-t border-border bg-surface px-6 py-24 md:py-32">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="mb-6 text-3xl font-semibold tracking-tight text-ink md:text-4xl">About</h2>
+      <p class="mb-8 text-base leading-relaxed text-muted">
+        I'm a strategist who sits at the intersection of culture, data, and content. At Ralph
+        Lauren, I've led real-time execution during Paris Fashion Week, the Australian Open, and the
+        Ryder Cup — and built the team's AI automation infrastructure. Before that, I studied
+        Economics at the University of Michigan's Ross School of Business (3.93 GPA, With
+        Distinction).
+      </p>
+      <a href="/about" class="text-sm font-medium text-ink transition-opacity hover:opacity-70">
+        More About Me →
+      </a>
     </div>
   </section>
 </Base>

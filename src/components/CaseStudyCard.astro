@@ -1,0 +1,54 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import type { CaseStudy } from '../data/work';
+import MetricPill from './MetricPill.astro';
+
+interface Props {
+  caseStudy: CaseStudy;
+}
+
+const { caseStudy } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/case-studies/*.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const filename = caseStudy.thumbnail.split('/').pop()!;
+const thumbnailSrc = images[`../assets/case-studies/${filename}`]?.default;
+---
+
+<a
+  href={`/work/${caseStudy.slug}`}
+  class="block overflow-hidden border border-border bg-surface hover:shadow-md transition-shadow duration-200"
+>
+  {
+    thumbnailSrc && (
+      <Image
+        src={thumbnailSrc}
+        alt={`${caseStudy.title} campaign thumbnail`}
+        width={640}
+        height={360}
+        class="w-full aspect-video object-cover"
+      />
+    )
+  }
+  <div class="p-6">
+    <p class="mb-2 text-sm font-medium uppercase tracking-widest text-muted">
+      {caseStudy.brand} · {caseStudy.year}
+    </p>
+    <h3 class="mb-2 text-xl font-medium text-ink md:text-2xl">
+      {caseStudy.title}
+    </h3>
+    <p class="mb-4 text-sm text-muted">
+      {caseStudy.platforms.join(' · ')}
+    </p>
+    <div class="mb-4 flex flex-wrap gap-6">
+      {caseStudy.metrics.map((metric) => <MetricPill value={metric.value} unit={metric.unit} />)}
+    </div>
+    <p class="mb-4 line-clamp-2 text-base text-muted">
+      {caseStudy.summary}
+    </p>
+    <p class="text-right text-sm text-muted">View →</p>
+  </div>
+</a>
