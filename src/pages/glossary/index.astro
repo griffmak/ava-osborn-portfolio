@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import { glossaryArticles } from '../../data/glossary';
+---
+
+<Base title="Glossary Definitions">
+  <main class="py-16 md:py-32">
+    <div class="max-w-2xl mx-auto px-4">
+      {/* Page header */}
+      <div class="mb-16">
+        <h1 class="font-heading text-4xl md:text-5xl text-text font-normal">
+          Glossary Definitions
+        </h1>
+        <p class="font-body text-base text-muted mt-4 max-w-xl">
+          A curated collection of key terms and strategic concepts developed during my work at Azul Systems.
+        </p>
+      </div>
+
+      {/* Article list */}
+      <div>
+        {glossaryArticles.map((article) => (
+          <article
+            key={article.slug}
+            class="border-t border-border py-8 first:border-t-0 first:pt-0"
+          >
+            <h2 class="font-heading text-2xl font-normal text-text">
+              {article.title}
+            </h2>
+            {article.excerpt && (
+              <p class="font-body text-base text-muted mt-2">{article.excerpt}</p>
+            )}
+            <p class="font-body text-sm text-muted mt-1">
+              {article.company} · {article.period}
+            </p>
+            <a
+              href={`/glossary/${article.slug}`}
+              class="font-body text-sm font-semibold text-text hover:underline mt-3 block"
+            >
+              Read →
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</Base>

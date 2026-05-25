@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import { glossaryArticles } from '../../data/glossary';
+
+export function getStaticPaths() {
+  return glossaryArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+interface Props {
+  article: (typeof glossaryArticles)[0];
+}
+
+const { article } = Astro.props;
+---
+
+<Base title={article.title}>
+  <main class="pt-12 pb-20">
+    <div class="max-w-2xl mx-auto px-4">
+      {/* Back link */}
+      <a
+        href="/glossary"
+        class="font-body text-sm text-muted hover:text-text transition-colors duration-150"
+      >
+        ← Glossary
+      </a>
+
+      {/* Article header */}
+      <header class="py-8">
+        <h1 class="font-heading text-4xl font-normal text-text">
+          {article.title}
+        </h1>
+        <p class="font-body text-sm text-muted mt-2">
+          {article.company} · {article.period}
+        </p>
+      </header>
+
+      {/* Article body */}
+      <article class="font-body text-base md:text-lg leading-7 text-text">
+        {article.body ? (
+          <div set:html={article.body} />
+        ) : (
+          <p class="text-muted italic">Content coming soon.</p>
+        )}
+      </article>
+    </div>
+  </main>
+</Base>

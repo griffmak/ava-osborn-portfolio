@@ -72,7 +72,7 @@ export const caseStudies: CaseStudy[] = [
       'Built a platform-tailored strategy to capture golf audiences, earning #1 social SOV among all competing brand sponsors.',
     description: null,
     postUrls: [],
-    postImages: [],
+    postImages: ['ryder-cup.jpg', 'ryder-cup.jpg', 'ryder-cup.jpg'],
     metrics: [
       { value: '39M', unit: 'Total Reach' },
       { value: '14.5M', unit: 'Non-Followers Reached' },
@@ -92,7 +92,7 @@ export const caseStudies: CaseStudy[] = [
       "Identified a live cultural moment and executed the brand's highest-ever performing post.",
     description: null,
     postUrls: [],
-    postImages: [],
+    postImages: ['australian-open.jpg', 'australian-open.jpg', 'australian-open.jpg'],
     metrics: [
       { value: '2.4M', unit: 'Video Views' },
       { value: '1.4M', unit: 'Total Engagements' },
