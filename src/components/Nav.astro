@@ -1,7 +1,5 @@
 ---
 const navLinks = [
-  { href: '/about', label: 'About' },
-  { href: '/work', label: 'Work' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -9,13 +7,13 @@ const currentPath = Astro.url.pathname;
 ---
 
 <nav
-  class="sticky top-0 z-50 bg-surface border-b border-border"
+  class="sticky top-0 z-50 bg-bg border-b border-border"
   aria-label="Main navigation"
 >
   <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
     <a
       href="/"
-      class="text-xl font-semibold text-ink tracking-tight hover:opacity-80 transition-opacity"
+      class="font-heading italic text-xl text-text hover:text-muted transition-colors duration-150"
     >
       Ava Osborn
     </a>
@@ -29,10 +27,10 @@ const currentPath = Astro.url.pathname;
               href={href}
               aria-current={currentPath === href ? 'page' : undefined}
               class:list={[
-                'text-sm font-medium transition-colors duration-200',
+                'font-body text-xs uppercase tracking-widest transition-colors duration-150',
                 currentPath === href
-                  ? 'text-ink font-semibold underline underline-offset-4'
-                  : 'text-muted hover:text-ink',
+                  ? 'text-text underline underline-offset-4'
+                  : 'text-muted hover:text-text',
               ]}
             >
               {label}
@@ -46,7 +44,7 @@ const currentPath = Astro.url.pathname;
     <button
       id="nav-toggle"
       type="button"
-      class="md:hidden p-2 text-ink rounded focus:outline-none focus:ring-2 focus:ring-ink"
+      class="md:hidden p-2 text-text rounded focus:outline-none focus:ring-2 focus:ring-text"
       aria-label="Open navigation menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
@@ -101,10 +99,10 @@ const currentPath = Astro.url.pathname;
               href={href}
               aria-current={currentPath === href ? 'page' : undefined}
               class:list={[
-                'text-base font-medium transition-colors duration-200',
+                'font-body text-xs uppercase tracking-widest transition-colors duration-150',
                 currentPath === href
-                  ? 'text-ink font-semibold underline underline-offset-4'
-                  : 'text-muted hover:text-ink',
+                  ? 'text-text underline underline-offset-4'
+                  : 'text-muted hover:text-text',
               ]}
             >
               {label}

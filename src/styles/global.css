@@ -1,15 +1,22 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg: #F5F0EB;
-  --color-surface: #FFFFFF;
-  --color-ink: #0A0A0A;
-  --color-muted: #5C5C5C;
-  --color-border: #E0D8CE;
-  --font-sans: 'Inter', sans-serif;
+  --color-bg: #2D1408;
+  --color-surface: #3D2010;
+  --color-surface-hover: #4D2B18;
+  --color-text: #FFFAF6;
+  --color-muted: #C4A882;
+  --color-border: #5A3520;
+  --color-border-hover: #7A4530;
+
+  /* backward-compat: keeps text-ink/bg-ink working on out-of-scope pages */
+  --color-ink: #FFFAF6;
+
+  --font-heading: 'Bodoni Moda', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 html,
 body {
-  @apply bg-bg font-sans;
+  @apply bg-bg font-body;
 }
