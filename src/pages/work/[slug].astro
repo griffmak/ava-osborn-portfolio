@@ -23,13 +23,14 @@ const images = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 
-function resolveImageSrc(filename: string): string {
+const resolvedPostImages = caseStudy.postImages.flatMap((filename) => {
   const mod = images[`../../assets/case-studies/${filename}`];
-  if (!mod) throw new Error(`[slug].astro: no image found for "${filename}"`);
-  return mod.default.src;
-}
-
-const resolvedPostImages = caseStudy.postImages.map((filename) => resolveImageSrc(filename));
+  if (!mod) {
+    console.warn(`[slug].astro: no image found for "${filename}" in ${caseStudy.slug} — skipping`);
+    return [];
+  }
+  return [mod.default.src];
+});
 ---
 
 <Base title={caseStudy.title} description={caseStudy.summary}>

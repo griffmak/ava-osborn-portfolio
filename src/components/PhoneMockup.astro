@@ -54,7 +54,7 @@ const hasLink = postUrl.length > 0;
     border-color: var(--color-border-hover);
   }
 
-  .phone-frame:focus-visible {
+  .phone-frame:not(.phone-frame--static):focus-visible {
     outline: 2px solid var(--color-text);
     outline-offset: 3px;
   }
