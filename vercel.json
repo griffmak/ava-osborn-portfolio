@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/about", "destination": "/", "statusCode": 301 },
+    { "source": "/work", "destination": "/", "statusCode": 301 }
+  ]
+}

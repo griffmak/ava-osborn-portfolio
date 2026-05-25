@@ -1,76 +1,130 @@
 ---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
-import CaseStudyCard from '../components/CaseStudyCard.astro';
-import { caseStudies } from '../data/work';
+import HubCard from '../components/HubCard.astro';
+import headshot from '../assets/headshot.jpg';
 
-const featuredStudies = caseStudies.filter((cs) => cs.featured);
+const caseStudyImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/case-studies/*.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+
+function imgSrc(filename: string): string {
+  const entry = caseStudyImages[`../assets/case-studies/${filename}`];
+  if (!entry) throw new Error(`Hub: no case-study image found for "${filename}"`);
+  return entry.default.src;
+}
+
+// PLACEHOLDER — Ava to replace with her own words before launch.
+// Source: Ava/portfolio-v2-content/bio.txt
+const bio =
+  "I believe the best social strategy doesn’t live in a content calendar — it lives at the intersection of culture and data. At Ralph Lauren, I’ve led activations across Paris Fashion Week, the Ryder Cup, and the Australian Open, earning the brand’s highest-ever post performance and a #1 competitive ranking across eight platforms during PFW. I approach every campaign as an opportunity to put a brand inside a moment that actually matters — and I treat every number that comes back as a signal worth acting on.";
 ---
 
 <Base
-  title="Home"
-  description="Ava Osborn — Social Marketing and Content Strategist. Building social strategies that drive cultural moments at scale."
+  title="Ava Osborn — Social Marketing Strategist"
+  description="Ava Osborn is a social marketing and content strategist at Ralph Lauren, building campaigns that drive cultural moments at scale."
 >
-  <!-- Section 1: Hero -->
-  <section aria-label="Hero" class="flex min-h-screen items-center justify-center px-6 py-24 md:py-32">
-    <div class="mx-auto max-w-3xl text-center">
-      <p class="mb-6 text-sm font-medium uppercase tracking-widest text-muted">
-        Social Marketing and Content Strategist
-      </p>
-      <h1 class="mb-8 text-5xl font-semibold tracking-tight text-ink md:text-7xl">
-        Ava Osborn
-      </h1>
-      <p class="mx-auto mb-12 max-w-xl text-base leading-relaxed text-muted">
-        I build social strategies that drive cultural moments at scale. Currently at Ralph Lauren,
-        leading campaigns across Paris Fashion Week, the Australian Open, and the Ryder Cup.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a
-          href="/work"
-          class="bg-ink px-8 py-3 text-sm font-medium text-surface transition-opacity hover:opacity-90"
-        >
-          See My Work
-        </a>
-        <a
-          href="/contact"
-          class="border border-ink px-8 py-3 text-sm font-medium text-ink transition-colors hover:bg-ink hover:text-surface"
-        >
-          Get In Touch
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 2: Featured Work -->
-  <section class="px-6 py-24 md:py-32">
+  <!-- Hero -->
+  <section aria-label="Introduction" class="px-6 py-20 md:py-32">
     <div class="mx-auto max-w-6xl">
-      <h2 class="mb-12 text-3xl font-semibold tracking-tight text-ink md:text-4xl">
-        Featured Work
-      </h2>
-      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
-        {featuredStudies.map((cs) => <CaseStudyCard caseStudy={cs} />)}
-      </div>
-      <div class="mt-12">
-        <a href="/work" class="text-sm font-medium text-ink transition-opacity hover:opacity-70">
-          View All Work →
-        </a>
+      <div class="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-12 md:items-start">
+
+        <!-- Headshot (5/12) -->
+        <div class="md:col-span-5">
+          <Image
+            src={headshot}
+            alt="Ava Osborn — Social Marketing and Content Strategist"
+            class="w-full object-cover"
+            style="aspect-ratio: 4/5;"
+            widths={[480, 960]}
+            sizes="(max-width: 768px) 100vw, 41vw"
+          />
+        </div>
+
+        <!-- Bio (7/12) -->
+        <div class="md:col-span-7 flex flex-col justify-center">
+          <h1
+            class="font-heading text-6xl text-text leading-[0.9] md:text-8xl"
+            style="font-weight: 400; letter-spacing: -0.02em;"
+          >
+            Ava Osborn
+          </h1>
+
+          <p class="font-body mt-6 text-base text-muted leading-[1.7] md:text-lg">
+            {bio}
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a
+              href="/resume.pdf"
+              download
+              class="font-body inline-block border border-border px-6 py-3 text-sm font-semibold text-text transition-all duration-150 ease-in-out hover:bg-surface-hover hover:border-border-hover"
+              style="letter-spacing: 0.08em;"
+            >
+              Download Resume
+            </a>
+            <a
+              href="https://linkedin.com/in/ava-osborn/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-body inline-block border border-border px-6 py-3 text-sm font-semibold text-text transition-all duration-150 ease-in-out hover:bg-surface-hover hover:border-border-hover"
+              style="letter-spacing: 0.08em;"
+            >
+              LinkedIn
+            </a>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Section 3: About Teaser -->
-  <section class="border-t border-border bg-surface px-6 py-24 md:py-32">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="mb-6 text-3xl font-semibold tracking-tight text-ink md:text-4xl">About</h2>
-      <p class="mb-8 text-base leading-relaxed text-muted">
-        I'm a strategist who sits at the intersection of culture, data, and content. At Ralph
-        Lauren, I've led real-time execution during Paris Fashion Week, the Australian Open, and the
-        Ryder Cup — and built the team's AI automation infrastructure. Before that, I studied
-        Economics at the University of Michigan's Ross School of Business (3.93 GPA, With
-        Distinction).
-      </p>
-      <a href="/about" class="text-sm font-medium text-ink transition-opacity hover:opacity-70">
-        More About Me →
-      </a>
+  <!-- Hub -->
+  <section aria-label="Work and writing" class="px-6 pb-24 md:pb-32">
+    <div class="mx-auto max-w-6xl">
+
+      <!-- Row 1: 3 campaign cards (col-span-2 each in a 6-col grid) -->
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-6">
+        <div class="sm:col-span-2">
+          <HubCard
+            title="Oak Bluffs 2025"
+            href="/work/oak-bluffs"
+            imageUrl={imgSrc('oak-bluffs.jpg')}
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <HubCard
+            title="Paris Fashion Week"
+            href="/work/paris-fashion-week"
+            imageUrl={imgSrc('paris-fw.jpg')}
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <HubCard
+            title="Ryder Cup"
+            href="/work/ryder-cup"
+            imageUrl={imgSrc('ryder-cup.jpg')}
+          />
+        </div>
+
+        <!-- Row 2: 2 wider cards (col-span-3 each) -->
+        <div class="sm:col-span-3">
+          <HubCard
+            title="Australian Open"
+            href="/work/australian-open"
+            imageUrl={imgSrc('australian-open.jpg')}
+          />
+        </div>
+        <div class="sm:col-span-3">
+          <HubCard
+            title="Glossary Definitions"
+            href="/glossary"
+          />
+        </div>
+      </div>
+
     </div>
   </section>
 </Base>
