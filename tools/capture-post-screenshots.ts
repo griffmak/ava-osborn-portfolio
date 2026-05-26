@@ -143,6 +143,54 @@ async function capturePost(
       result.filepath = filepath;
       results.push(result);
       console.log(`📸 Captured Instagram: ${filename}`);
+    } else if (platform === 'tiktok') {
+      // Wait for TikTok content container.
+      // TikTok photo and video posts use different DOM structures; check each selector
+      // synchronously (already loaded after networkidle) before falling back to a timed wait.
+      const selectors = [
+        '.video-feed-item',
+        '[data-testid="video-card"]',
+        'video',
+        'section',   // photo/carousel posts render a <section> as the primary container
+        'img',       // broad fallback: any image means page loaded content
+      ];
+
+      // First pass: check if any selector already exists in the DOM (fast, no timeout)
+      let found = await page.evaluate((sels: string[]) => {
+        return sels.some((s) => document.querySelector(s) !== null);
+      }, selectors);
+
+      // Second pass: if nothing found yet, wait up to 5s on each selector sequentially
+      if (!found) {
+        for (const selector of selectors) {
+          try {
+            await page.waitForSelector(selector, { timeout: 5000 });
+            found = true;
+            break;
+          } catch {
+            continue;
+          }
+        }
+      }
+
+      if (!found) {
+        throw new Error('TikTok video element not found (tried multiple selectors)');
+      }
+
+      // Screenshot entire viewport for TikTok (video fills most of screen)
+      const filename = `${campaign}-${index}.png`;
+      const filepath = join(screenshotDir, filename);
+
+      await page.screenshot({
+        path: filepath,
+        type: 'png',
+        fullPage: false,
+      });
+
+      result.success = true;
+      result.filepath = filepath;
+      results.push(result);
+      console.log(`📸 Captured TikTok: ${filename}`);
     }
   } catch (error) {
     result.error = error instanceof Error ? error.message : String(error);
