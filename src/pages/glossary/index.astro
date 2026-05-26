@@ -32,9 +32,6 @@ import { glossaryArticles } from '../../data/glossary';
             {article.excerpt && (
               <p class="font-body text-base text-muted mt-2">{article.excerpt}</p>
             )}
-            <p class="font-body text-sm text-muted mt-1">
-              {article.company} · {article.period}
-            </p>
             <a
               href={`https://www.azul.com/glossary/${article.slug}/`}
               target="_blank"
