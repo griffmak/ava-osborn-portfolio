@@ -37,7 +37,12 @@ export const caseStudies: CaseStudy[] = [
       'https://www.instagram.com/p/DVjVhmpDha7/',
       'https://www.tiktok.com/@ralphlauren/video/7614505394664213773?lang=en',
     ],
-    postImages: ['paris-fw-1.png', 'paris-fw-2.png', 'paris-fw-3.png'],
+    postImages: [
+      'paris-fashion-week-1.png',
+      'paris-fashion-week-2.png',
+      'paris-fashion-week-3.png',
+      'paris-fashion-week-4.png',
+    ],
     metrics: [
       { value: '61M', unit: 'Total Reach' },
       { value: '74M', unit: 'Video Views' },
@@ -62,7 +67,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.instagram.com/p/DMfWAcjARYX/',
       'https://www.instagram.com/p/DMgo2HsAcIw/',
     ],
-    postImages: ['oak-bluffs-1.png', 'oak-bluffs-2.png', 'oak-bluffs-3.png'],
+    postImages: ['oak-bluffs-1.jpg', 'oak-bluffs-2.png'],
     metrics: [
       { value: '62K', unit: 'New Followers' },
       { value: '1.5M', unit: 'Total Engagements' },
@@ -87,7 +92,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.tiktok.com/@ralphlauren/video/7555306097914006798?lang=en',
       'https://www.instagram.com/p/DO_7EFjD8_l/',
     ],
-    postImages: ['ryder-cup-1.png', 'ryder-cup-2.png', 'ryder-cup-3.png'],
+    postImages: ['ryder-cup-1.png', 'ryder-cup-2.png', 'ryder-cup-3.png', 'ryder-cup-4.png'],
     metrics: [
       { value: '39M', unit: 'Total Reach' },
       { value: '14.5M', unit: 'Non-Followers Reached' },
@@ -112,7 +117,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.instagram.com/p/DUNTsMij7gn/',
       'https://www.tiktok.com/@ralphlauren/video/7602315170400029966?lang=en',
     ],
-    postImages: ['australian-open-1.png', 'australian-open-2.png', 'australian-open-3.png'],
+    postImages: ['australian-open-1.png', 'australian-open-2.png'],
     metrics: [
       { value: '2.4M', unit: 'Video Views' },
       { value: '1.4M', unit: 'Total Engagements' },

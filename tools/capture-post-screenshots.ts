@@ -185,53 +185,108 @@ async function capturePost(
       results.push(result);
       console.log(`📸 Captured Instagram: ${filename}`);
     } else if (platform === 'tiktok') {
-      // Wait for TikTok content container.
-      // TikTok photo and video posts use different DOM structures; check each selector
-      // synchronously (already loaded after networkidle) before falling back to a timed wait.
-      const selectors = [
-        '.video-feed-item',
-        '[data-testid="video-card"]',
-        'video',
-        'section',   // photo/carousel posts render a <section> as the primary container
-        'img',       // broad fallback: any image means page loaded content
-      ];
+      // TikTok strategy: dismiss the "Got it" tutorial overlay (which dims the
+      // video), then clip TIGHTLY to the largest visible media element. Tight
+      // clipping makes DOM stripping unnecessary because the side nav, search,
+      // and comments column fall outside the bounding rect.
 
-      // First pass: check if any selector already exists in the DOM (fast, no timeout)
-      let found = await page.evaluate((sels: string[]) => {
-        return sels.some((s) => document.querySelector(s) !== null);
-      }, selectors);
+      // Wait for any image to attach — works for both video posts (poster <img>
+      // appears before <video>) and photo posts (carousel uses <img>).
+      try {
+        await page.waitForSelector('img, video', { timeout: 15000, state: 'attached' });
+      } catch {
+        throw new Error('TikTok post content never rendered (no img/video)');
+      }
 
-      // Second pass: if nothing found yet, wait up to 5s on each selector sequentially
-      if (!found) {
-        for (const selector of selectors) {
-          try {
-            await page.waitForSelector(selector, { timeout: 5000 });
-            found = true;
-            break;
-          } catch {
-            continue;
-          }
+      // Generous wait for the video to start painting and lazy assets to load.
+      await page.waitForTimeout(4000);
+
+      // Dismiss the feed tutorial overlay if present (it dims the video).
+      const gotItBtn = page.getByRole('button', { name: /got it/i });
+      if (await gotItBtn.count() > 0) {
+        try {
+          await gotItBtn.first().click({ timeout: 2000 });
+          await page.waitForTimeout(500);
+        } catch {
+          /* keep going — clip is tight enough that the overlay text is outside */
         }
       }
 
-      if (!found) {
-        throw new Error('TikTok video element not found (tried multiple selectors)');
+      // Dismiss the TikTok Shop promo toast if it has a close button.
+      const closeBtn = page.locator('button[aria-label*="lose" i], [data-e2e*="close" i]');
+      if (await closeBtn.count() > 0) {
+        try {
+          await closeBtn.first().click({ timeout: 1500 });
+          await page.waitForTimeout(300);
+        } catch {
+          /* non-fatal */
+        }
       }
 
-      // Screenshot entire viewport for TikTok (video fills most of screen)
+      // Find the largest visible media element (video preferred over img).
+      // The center-stage post is always the largest media node on the page;
+      // side-nav icons and toast images are tiny by comparison.
+      const region: { x: number; y: number; width: number; height: number } | null =
+        await page.evaluate(() => {
+          const viewH = window.innerHeight;
+          const viewW = window.innerWidth;
+
+          type Cand = { x: number; y: number; w: number; h: number; area: number; isVideo: boolean };
+          const cands: Cand[] = [];
+
+          for (const el of Array.from(document.querySelectorAll('video, img'))) {
+            const r = (el as HTMLElement).getBoundingClientRect();
+            // Must be reasonably sized and at least partially in viewport.
+            if (r.width < 250 || r.height < 250) continue;
+            if (r.y + r.height < 0 || r.y > viewH) continue;
+            if (r.x + r.width < 0 || r.x > viewW) continue;
+            cands.push({
+              x: r.x,
+              y: r.y,
+              w: r.width,
+              h: r.height,
+              area: r.width * r.height,
+              isVideo: el.tagName === 'VIDEO',
+            });
+          }
+
+          if (cands.length === 0) return null;
+
+          // Pick the largest; break ties by preferring <video>.
+          cands.sort((a, b) => (b.area - a.area) || (Number(b.isVideo) - Number(a.isVideo)));
+          const top = cands[0];
+
+          // Reference framing (Griffin 2026-05-25): show video + right-side
+          // action rail (likes/comments/shares/bookmarks) + bottom caption.
+          // Extend the clip rect to include those zones without spilling into
+          // the left side nav or the right comments column.
+          const RAIL_RIGHT = 90;   // action rail sits ~80–100px right of video
+          const CAPTION_BOTTOM = 70; // caption strip is ~60–80px below video
+          const PAD_LEFT = 4;
+
+          const x = Math.max(0, Math.floor(top.x - PAD_LEFT));
+          const y = Math.max(0, Math.floor(top.y));
+          const width = Math.min(viewW - x, Math.ceil(top.w + PAD_LEFT + RAIL_RIGHT));
+          const height = Math.min(viewH - y, Math.ceil(top.h + CAPTION_BOTTOM));
+
+          return { x, y, width, height };
+        });
+
+      if (!region) throw new Error('Could not locate TikTok post media (no large enough media element)');
+
       const filename = `${campaign}-${index}.png`;
       const filepath = join(screenshotDir, filename);
 
       await page.screenshot({
         path: filepath,
         type: 'png',
-        fullPage: false,
+        clip: region,
       });
 
       result.success = true;
       result.filepath = filepath;
       results.push(result);
-      console.log(`📸 Captured TikTok: ${filename}`);
+      console.log(`📸 Captured TikTok: ${filename} (${region.width}×${region.height})`);
     }
   } catch (error) {
     result.error = error instanceof Error ? error.message : String(error);

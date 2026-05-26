@@ -18,7 +18,6 @@ const hasLink = postUrl.length > 0;
     aria-label={`View post: ${altText}`}
   >
     <div class="phone-screen">
-      <div class="phone-notch" aria-hidden="true"></div>
       <img src={imageUrl} alt={altText} class="phone-image" />
       <div class="phone-reflection" aria-hidden="true"></div>
     </div>
@@ -26,7 +25,6 @@ const hasLink = postUrl.length > 0;
 ) : (
   <div class="phone-frame phone-frame--static">
     <div class="phone-screen">
-      <div class="phone-notch" aria-hidden="true"></div>
       <img src={imageUrl} alt={altText} class="phone-image" />
       <div class="phone-reflection" aria-hidden="true"></div>
     </div>
@@ -34,18 +32,28 @@ const hasLink = postUrl.length > 0;
 )}
 
 <style>
+  /* iPhone-native 9:19.5 aspect ratio so the 1290×2796 source screenshots
+     fill the frame exactly with no white space or cropping. */
   .phone-frame {
     display: block;
-    width: 160px;
-    height: 320px;
-    border-radius: 26px;
-    border: 3px solid var(--color-border);
+    width: 260px;
+    height: 563px;
+    border-radius: 42px;
+    border: 4px solid var(--color-border);
     background: #1a0b04;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.65);
     position: relative;
     flex-shrink: 0;
     transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease;
     text-decoration: none;
+  }
+
+  @media (max-width: 768px) {
+    .phone-frame {
+      width: 220px;
+      height: 477px;
+      border-radius: 36px;
+    }
   }
 
   .phone-frame:not(.phone-frame--static):hover {
@@ -59,23 +67,13 @@ const hasLink = postUrl.length > 0;
     outline-offset: 3px;
   }
 
+  /* No faux notch — the source iPhone screenshots already include the real
+     iOS status bar (time, signal, wifi, battery). */
   .phone-screen {
     position: absolute;
-    inset: 4px;
-    border-radius: 22px;
+    inset: 5px;
+    border-radius: 36px;
     overflow: hidden;
-  }
-
-  .phone-notch {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 14px;
-    border-radius: 7px;
-    background: #1a0b04;
-    z-index: 2;
   }
 
   .phone-image {
@@ -88,7 +86,7 @@ const hasLink = postUrl.length > 0;
   .phone-reflection {
     position: absolute;
     inset: 0;
-    border-radius: 22px;
+    border-radius: 36px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, transparent 50%);
     pointer-events: none;
     z-index: 1;

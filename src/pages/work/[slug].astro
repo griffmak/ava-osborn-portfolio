@@ -35,28 +35,33 @@ const resolvedPostImages = caseStudy.postImages.flatMap((filename) => {
 
 <Base title={caseStudy.title} description={caseStudy.summary}>
   <article>
-    <!-- Campaign header -->
-    <div class="mx-auto max-w-4xl px-6 pt-16 pb-8">
+    <!-- Back link -->
+    <div class="mx-auto max-w-4xl px-6 pt-8">
       <a
         href="/"
         class="text-sm text-muted transition-colors duration-150 hover:text-text"
       >
         ← Work
       </a>
+    </div>
 
-      <p
-        class="mt-4 text-sm font-medium text-muted"
-        style="letter-spacing: 0.06em;"
-      >
-        {caseStudy.brand} · {caseStudy.year} · {caseStudy.role}
-      </p>
+    <!-- Campaign header (centered, colored callout) -->
+    <div class="mt-6 w-full bg-surface py-16 md:py-20">
+      <div class="mx-auto max-w-4xl px-6 text-center">
+        <p
+          class="text-sm font-medium uppercase text-muted"
+          style="letter-spacing: 0.12em;"
+        >
+          {caseStudy.brand} · {caseStudy.year} · {caseStudy.role}
+        </p>
 
-      <h1
-        class="mt-2 font-heading text-4xl font-normal text-text md:text-5xl"
-        style="letter-spacing: -0.01em; line-height: 1.1;"
-      >
-        {caseStudy.title}
-      </h1>
+        <h1
+          class="mt-4 font-heading text-5xl font-normal text-text md:text-7xl"
+          style="letter-spacing: -0.02em; line-height: 1.05;"
+        >
+          {caseStudy.title}
+        </h1>
+      </div>
     </div>
 
     <!-- Brief description -->
@@ -70,11 +75,11 @@ const resolvedPostImages = caseStudy.postImages.flatMap((filename) => {
       </p>
     </div>
 
-    <!-- Phone mockups row (only rendered if postImages populated) -->
+    <!-- Phone mockups row (wraps to multiple rows for 4-phone campaigns) -->
     {
       resolvedPostImages.length > 0 && (
         <div class="px-6 py-12">
-          <div class="flex flex-col items-center gap-8 md:flex-row md:justify-center">
+          <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-8 md:gap-10">
             {resolvedPostImages.map((src, i) => (
               <PhoneMockup
                 imageUrl={src}
@@ -87,42 +92,6 @@ const resolvedPostImages = caseStudy.postImages.flatMap((filename) => {
       )
     }
 
-    <!-- Metrics panel -->
-    <div class="w-full bg-surface py-16">
-      <p
-        class="mb-10 text-center text-xs font-semibold uppercase text-muted"
-        style="letter-spacing: 0.15em;"
-      >
-        The Numbers
-      </p>
-      <div class="flex items-center justify-center gap-16">
-        {
-          caseStudy.metrics.map((metric, i) => (
-            <>
-              {i > 0 && (
-                <div
-                  class="hidden h-12 w-px bg-border md:block"
-                  aria-hidden="true"
-                />
-              )}
-              <div class="text-center">
-                <p
-                  class="font-heading text-5xl font-normal text-text md:text-6xl"
-                  style="letter-spacing: -0.02em; line-height: 1;"
-                >
-                  {metric.value}
-                </p>
-                <p
-                  class="mt-2 text-xs font-medium uppercase text-muted"
-                  style="letter-spacing: 0.08em;"
-                >
-                  {metric.unit}
-                </p>
-              </div>
-            </>
-          ))
-        }
-      </div>
-    </div>
+    <div class="pb-24"></div>
   </article>
 </Base>
