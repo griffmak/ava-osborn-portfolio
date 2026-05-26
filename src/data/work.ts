@@ -93,6 +93,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.tiktok.com/@ralphlauren/photo/7555162888525106445?lang=en',
       'https://www.tiktok.com/@ralphlauren/video/7555306097914006798?lang=en',
       'https://www.instagram.com/p/DO_7EFjD8_l/',
+      'https://www.tiktok.com/@ralphlauren/video/7555318706402856206?lang=en',
     ],
     postImages: ['ryder-cup-1.png', 'ryder-cup-3.png', 'ryder-cup-2.png', 'ryder-cup-4.png'],
     metrics: [
