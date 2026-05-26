@@ -26,7 +26,30 @@ const caseStudies = [
       'https://www.instagram.com/p/DO_7EFjD8_l/',
     ],
   },
-  // Add other campaigns here when scaling beyond PoC
+  {
+    slug: 'australian-open',
+    postUrls: [
+      'https://www.instagram.com/p/DUP-wekj9uZ/',
+      'https://www.instagram.com/p/DUNTsMij7gn/',
+      'https://www.tiktok.com/@ralphlauren/video/7602315170400029966?lang=en',
+    ],
+  },
+  {
+    slug: 'oak-bluffs',
+    postUrls: [
+      'https://www.instagram.com/p/DMcxB0NgW_w/',
+      'https://www.instagram.com/p/DMfWAcjARYX/',
+      'https://www.instagram.com/p/DMgo2HsAcIw/',
+    ],
+  },
+  {
+    slug: 'paris-fashion-week',
+    postUrls: [
+      'https://www.instagram.com/p/DPcVeIBDyKB/',
+      'https://www.instagram.com/p/DVjVhmpDha7/',
+      'https://www.tiktok.com/@ralphlauren/video/7614505394664213773?lang=en',
+    ],
+  },
 ];
 
 const results: PostCapture[] = [];
@@ -107,28 +130,46 @@ async function capturePost(
 
       await page.waitForTimeout(500);
 
-      // Find the post image and derive a clip region covering header + image + engagement
+      // Find the post media element (img or video) and derive a clip region
+      // Instagram photo posts use <img>, video posts use <video>
       const region: { x: number; y: number; width: number; height: number } | null =
         await page.evaluate(() => {
-          const main = document.querySelector('[role="main"]');
-          if (!main) return null;
-          const imgs = main.querySelectorAll('img');
-          let postImg: Element | null = null;
-          for (const img of imgs) {
-            const r = img.getBoundingClientRect();
-            if (r.width > 200) { postImg = img; break; }
+          const viewH = window.innerHeight;
+          const viewW = window.innerWidth;
+
+          // 1. Try video elements first (Instagram video/reel posts)
+          const videos = Array.from(document.querySelectorAll('video'));
+          for (const vid of videos) {
+            const r = vid.getBoundingClientRect();
+            if (r.width > 200 && r.y >= 0 && r.y < viewH) {
+              return {
+                x: Math.max(0, r.x - 2),
+                y: Math.max(0, r.y - 60),
+                width: Math.min(viewW - r.x + 2, r.width + 340),
+                height: Math.min(r.height + 200, viewH - Math.max(0, r.y - 60)),
+              };
+            }
           }
-          if (!postImg) return null;
-          const r = postImg.getBoundingClientRect();
-          return {
-            x: Math.max(0, r.x - 2),
-            y: Math.max(0, r.y - 60),    // include header row above image
-            width: Math.min(1280 - r.x + 2, r.width + 340), // image + right caption panel
-            height: r.height + 200,       // image height + header + engagement bar
-          };
+
+          // 2. Try img elements (photo posts)
+          const main = document.querySelector('[role="main"]');
+          const imgs = main ? main.querySelectorAll('img') : document.querySelectorAll('img');
+          for (const img of Array.from(imgs)) {
+            const r = img.getBoundingClientRect();
+            if (r.width > 200 && r.y >= 0 && r.y < viewH) {
+              return {
+                x: Math.max(0, r.x - 2),
+                y: Math.max(0, r.y - 60),
+                width: Math.min(viewW - r.x + 2, r.width + 340),
+                height: Math.min(r.height + 200, viewH - Math.max(0, r.y - 60)),
+              };
+            }
+          }
+
+          return null;
         });
 
-      if (!region) throw new Error('Could not locate post image in page');
+      if (!region) throw new Error('Could not locate post image or video in page');
 
       // Screenshot the post region as PNG
       const filename = `${campaign}-${index}.png`;
