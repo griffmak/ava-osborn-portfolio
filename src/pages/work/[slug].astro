@@ -60,20 +60,8 @@ const titleSplit = (() => {
       </a>
     </div>
 
-    <!--
-      Two title treatment hypotheses for Ava to compare. Variant A is the
-      default. Append #b to the URL to preview Variant B (watermark year).
-      Once we pick a winner, delete the loser + the small variant labels.
-    -->
-
-    <!-- Variant A: Editorial accent (thin rules + italic word + italic role) -->
-    <section class="variant variant-a relative mt-6 w-full bg-surface py-16 md:py-20">
-      <p
-        class="absolute left-4 top-4 text-[10px] font-semibold uppercase text-muted opacity-50"
-        style="letter-spacing: 0.18em;"
-      >
-        Variant A
-      </p>
+    <!-- Campaign header (editorial accent: thin rules + italicized last word) -->
+    <section class="relative mt-6 w-full bg-surface py-16 md:py-20">
       <div class="mx-auto max-w-4xl px-6 text-center">
         <div class="mx-auto mb-7 h-px w-12 bg-muted opacity-40" aria-hidden="true"></div>
 
@@ -100,39 +88,6 @@ const titleSplit = (() => {
         >
           {caseStudy.role} · {caseStudy.year}
         </p>
-      </div>
-    </section>
-
-    <!-- Variant B: Watermark year backdrop (hidden by default; #b in URL shows it) -->
-    <section class="variant variant-b relative mt-6 w-full bg-surface py-16 md:py-20 overflow-hidden">
-      <p
-        class="absolute left-4 top-4 z-20 text-[10px] font-semibold uppercase text-muted opacity-50"
-        style="letter-spacing: 0.18em;"
-      >
-        Variant B
-      </p>
-      <div class="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden="true">
-        <span
-          class="font-heading italic leading-none text-text"
-          style="font-size: 22rem; opacity: 0.06; letter-spacing: -0.05em;"
-        >
-          {caseStudy.year}
-        </span>
-      </div>
-      <div class="relative z-10 mx-auto max-w-4xl px-6 text-center">
-        <p
-          class="text-sm font-medium uppercase text-muted"
-          style="letter-spacing: 0.14em;"
-        >
-          {caseStudy.brand} · {caseStudy.role}
-        </p>
-
-        <h1
-          class="mt-4 font-heading text-5xl font-normal text-text md:text-7xl"
-          style="letter-spacing: -0.02em; line-height: 1.05;"
-        >
-          {caseStudy.title}
-        </h1>
       </div>
     </section>
 
@@ -166,23 +121,4 @@ const titleSplit = (() => {
 
     <div class="pb-24"></div>
   </article>
-
-  <!--
-    Variant toggle: by default show A. If URL hash is #b, show B instead.
-    Once Ava picks a winner, delete both variants except the chosen one.
-  -->
-  <style>
-    .variant-b { display: none; }
-    :global(html.show-b) .variant-a { display: none; }
-    :global(html.show-b) .variant-b { display: block; }
-  </style>
-  <script is:inline>
-    (function () {
-      const apply = () => {
-        document.documentElement.classList.toggle('show-b', location.hash === '#b');
-      };
-      apply();
-      window.addEventListener('hashchange', apply);
-    })();
-  </script>
 </Base>

@@ -5,14 +5,14 @@ import Base from '../layouts/Base.astro';
 import HubCard from '../components/HubCard.astro';
 import headshot from '../assets/headshot.jpg';
 
-const caseStudyImages = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/case-studies/*.{jpg,jpeg,png,webp}',
+const buttonImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/buttons/*.{jpg,jpeg,png,webp}',
   { eager: true },
 );
 
-function imgSrc(filename: string): string {
-  const entry = caseStudyImages[`../assets/case-studies/${filename}`];
-  if (!entry) throw new Error(`Hub: no case-study image found for "${filename}"`);
+function buttonSrc(filename: string): string {
+  const entry = buttonImages[`../assets/buttons/${filename}`];
+  if (!entry) throw new Error(`Hub: no button image found for "${filename}"`);
   return entry.default.src;
 }
 
@@ -100,21 +100,21 @@ const bioParagraphs = [
           <HubCard
             title="Oak Bluffs 2025"
             href="/work/oak-bluffs"
-            imageUrl={imgSrc('oak-bluffs-1.jpg')}
+            imageUrl={buttonSrc('oak-bluffs-button.jpg')}
           />
         </div>
         <div class="sm:col-span-2">
           <HubCard
             title="Paris Fashion Week"
             href="/work/paris-fashion-week"
-            imageUrl={imgSrc('paris-fashion-week-1.png')}
+            imageUrl={buttonSrc('paris-fashion-week-button.jpg')}
           />
         </div>
         <div class="sm:col-span-2">
           <HubCard
             title="Ryder Cup"
             href="/work/ryder-cup"
-            imageUrl={imgSrc('ryder-cup-1.png')}
+            imageUrl={buttonSrc('ryder-cup-button.jpg')}
           />
         </div>
 
@@ -123,13 +123,15 @@ const bioParagraphs = [
           <HubCard
             title="Australian Open"
             href="/work/australian-open"
-            imageUrl={imgSrc('australian-open-1.png')}
+            imageUrl={buttonSrc('australian-open-button.jpg')}
           />
         </div>
         <div class="sm:col-span-3">
           <HubCard
             title="Glossary Definitions"
             href="/glossary"
+            imageUrl={buttonSrc('azul-button.png')}
+            imageMode="contain"
           />
         </div>
       </div>

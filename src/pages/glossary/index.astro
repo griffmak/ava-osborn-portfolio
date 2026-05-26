@@ -36,10 +36,13 @@ import { glossaryArticles } from '../../data/glossary';
               {article.company} · {article.period}
             </p>
             <a
-              href={`/glossary/${article.slug}`}
+              href={`https://www.azul.com/glossary/${article.slug}/`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Read "${article.title}" on Azul (opens in new tab)`}
               class="font-body text-sm font-semibold text-text hover:underline mt-3 block"
             >
-              Read →
+              Read on Azul →
             </a>
           </article>
         ))}

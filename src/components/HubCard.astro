@@ -3,15 +3,25 @@ interface Props {
   title: string;
   href: string;
   imageUrl?: string;
+  /** 'cover' fills the card with the image (campaign photos);
+   *  'contain' centers a logo on a light bg with the title in a bottom strip. */
+  imageMode?: 'cover' | 'contain';
+  /** When true, opens the link in a new tab (used for external Azul glossary links). */
+  external?: boolean;
 }
 
-const { title, href, imageUrl } = Astro.props;
+const { title, href, imageUrl, imageMode = 'cover', external = false } = Astro.props;
 const hasImage = Boolean(imageUrl);
+const target = external ? '_blank' : undefined;
+const rel = external ? 'noopener noreferrer' : undefined;
+const ariaLabel = external ? `${title} (opens in new tab)` : title;
 ---
 
 <a
   href={href}
-  aria-label={title}
+  target={target}
+  rel={rel}
+  aria-label={ariaLabel}
   class:list={[
     'group relative block overflow-hidden rounded-[4px] border transition-all duration-150 ease-in-out hover:scale-[1.02]',
     hasImage
@@ -20,7 +30,7 @@ const hasImage = Boolean(imageUrl);
   ]}
   style="aspect-ratio: 4/3;"
 >
-  {hasImage ? (
+  {hasImage && imageMode === 'cover' && (
     <>
       <img
         src={imageUrl}
@@ -37,7 +47,30 @@ const hasImage = Boolean(imageUrl);
         {title}
       </p>
     </>
-  ) : (
+  )}
+
+  {hasImage && imageMode === 'contain' && (
+    <>
+      <div class="absolute inset-0 flex items-center justify-center bg-text px-10 pb-12 pt-6">
+        <img
+          src={imageUrl}
+          alt=""
+          aria-hidden="true"
+          class="max-h-full max-w-full object-contain"
+        />
+      </div>
+      <div
+        class="absolute bottom-0 left-0 right-0 bg-surface px-4 py-3"
+        aria-hidden="true"
+      >
+        <p class="font-heading italic text-center text-lg text-text md:text-xl">
+          {title}
+        </p>
+      </div>
+    </>
+  )}
+
+  {!hasImage && (
     <div class="absolute inset-0 flex items-center justify-center bg-surface px-6">
       <p class="font-heading italic text-center text-2xl text-text md:text-3xl">
         {title}
