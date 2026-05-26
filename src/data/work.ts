@@ -36,6 +36,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.instagram.com/p/DPcVeIBDyKB/',
       'https://www.instagram.com/p/DVjVhmpDha7/',
       'https://www.tiktok.com/@ralphlauren/video/7614505394664213773?lang=en',
+      'https://www.tiktok.com/@ralphlauren/photo/7614839280220851469?lang=en',
     ],
     postImages: [
       'paris-fashion-week-1.png',
@@ -92,7 +93,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.tiktok.com/@ralphlauren/video/7555306097914006798?lang=en',
       'https://www.instagram.com/p/DO_7EFjD8_l/',
     ],
-    postImages: ['ryder-cup-1.png', 'ryder-cup-2.png', 'ryder-cup-3.png', 'ryder-cup-4.png'],
+    postImages: ['ryder-cup-1.png', 'ryder-cup-3.png', 'ryder-cup-2.png', 'ryder-cup-4.png'],
     metrics: [
       { value: '39M', unit: 'Total Reach' },
       { value: '14.5M', unit: 'Non-Followers Reached' },
