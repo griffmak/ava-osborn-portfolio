@@ -67,8 +67,9 @@ export const caseStudies: CaseStudy[] = [
       'https://www.instagram.com/p/DMcxB0NgW_w/',
       'https://www.instagram.com/p/DMfWAcjARYX/',
       'https://www.instagram.com/p/DMgo2HsAcIw/',
+      'https://www.tiktok.com/@ralphlauren/video/7530842739248778551',
     ],
-    postImages: ['oak-bluffs-1.jpg', 'oak-bluffs-2.png'],
+    postImages: ['oak-bluffs-1.jpg', 'oak-bluffs-2.jpg', 'oak-bluffs-3.jpg', 'oak-bluffs-4.png'],
     metrics: [
       { value: '62K', unit: 'New Followers' },
       { value: '1.5M', unit: 'Total Engagements' },
@@ -118,7 +119,7 @@ export const caseStudies: CaseStudy[] = [
       'https://www.instagram.com/p/DUNTsMij7gn/',
       'https://www.tiktok.com/@ralphlauren/video/7602315170400029966?lang=en',
     ],
-    postImages: ['australian-open-1.png', 'australian-open-2.png'],
+    postImages: ['australian-open-1.png', 'australian-open-2.png', 'australian-open-3.png'],
     metrics: [
       { value: '2.4M', unit: 'Video Views' },
       { value: '1.4M', unit: 'Total Engagements' },

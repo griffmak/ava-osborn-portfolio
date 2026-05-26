@@ -6,11 +6,21 @@ interface Props {
   /** 'cover' fills the card with the image (campaign photos);
    *  'contain' centers a logo on a light bg with the title in a bottom strip. */
   imageMode?: 'cover' | 'contain';
+  /** CSS object-position for cover-mode images. Default 'center'. Use e.g.
+   *  'center 25%' to bias the visible crop toward the top of the source. */
+  objectPosition?: string;
   /** When true, opens the link in a new tab (used for external Azul glossary links). */
   external?: boolean;
 }
 
-const { title, href, imageUrl, imageMode = 'cover', external = false } = Astro.props;
+const {
+  title,
+  href,
+  imageUrl,
+  imageMode = 'cover',
+  objectPosition = 'center',
+  external = false,
+} = Astro.props;
 const hasImage = Boolean(imageUrl);
 const target = external ? '_blank' : undefined;
 const rel = external ? 'noopener noreferrer' : undefined;
@@ -36,7 +46,8 @@ const ariaLabel = external ? `${title} (opens in new tab)` : title;
         src={imageUrl}
         alt=""
         aria-hidden="true"
-        class="absolute inset-0 h-full w-full object-cover object-center"
+        class="absolute inset-0 h-full w-full object-cover"
+        style={`object-position: ${objectPosition};`}
       />
       <div
         class="absolute inset-0"

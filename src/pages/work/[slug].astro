@@ -31,21 +31,6 @@ const resolvedPostImages = caseStudy.postImages.flatMap((filename) => {
   }
   return [mod.default.src];
 });
-
-// Hypothesis A title split: italicize the trailing 4-digit year if present,
-// otherwise italicize the last word ("Australian Open" → "Australian *Open*").
-const titleSplit = (() => {
-  const yearMatch = caseStudy.title.match(/^(.+?)\s+(\d{4})$/);
-  if (yearMatch) return { head: yearMatch[1], tail: yearMatch[2] };
-  const lastSpace = caseStudy.title.lastIndexOf(' ');
-  if (lastSpace > 0) {
-    return {
-      head: caseStudy.title.slice(0, lastSpace),
-      tail: caseStudy.title.slice(lastSpace + 1),
-    };
-  }
-  return { head: caseStudy.title, tail: '' };
-})();
 ---
 
 <Base title={caseStudy.title} description={caseStudy.summary}>
@@ -76,10 +61,7 @@ const titleSplit = (() => {
           class="mt-5 font-heading text-5xl font-normal text-text md:text-7xl"
           style="letter-spacing: -0.02em; line-height: 1.0;"
         >
-          {titleSplit.head}
-          {titleSplit.tail && (
-            <em style="font-style: italic;">&nbsp;{titleSplit.tail}</em>
-          )}
+          {caseStudy.title}
         </h1>
 
         <p
